@@ -14,22 +14,22 @@ import { ToastContainer } from 'react-toastify'
 function App() {
 
   const [user, setuser] = useState(false);
-  // useEffect(() => {
-  //   const getuser = async () => {
-  //     const { data: { user } } = await supabase.auth.getUser();
-  //     setuser(user);
-  //   }
-  //   getuser();
+  useEffect(() => {
+    const getuser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setuser(user);
+    }
+    getuser();
 
-  //   supabase.auth.onAuthStateChange((_event, session) => {
-  //     if (session && session.user) {
-  //       setuser(session.user);
-  //     }
-  //     else {
-  //       setuser(null);
-  //     }
-  //   })
-  // }, [])
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (session && session.user) {
+        setuser(session.user);
+      }
+      else {
+        setuser(null);
+      }
+    })
+  }, [])
 
 
   return (
