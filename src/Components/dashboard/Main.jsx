@@ -4,13 +4,27 @@ import CardSummary from './CardSummary'
 import Addtask from './Addtask'
 import Filtertask from './Filtertask'
 import { toast } from 'react-toastify'
-import { Circle, Edit, Trash2 } from 'lucide-react'
+import { Edit, Trash2 } from 'lucide-react'
 import { supabase } from '../../utils/supabaseClient'
+import { useNavigate } from 'react-router-dom'
+import Tasklists from './Tasklists'
 
 const Main = () => {
     const [filter, setfilter] = useState("all");
     const [taskinput, settaskinput] = useState('');
     const [tasks, settasks] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            const {data: {user}} = await supabase.auth.getUser();
+            if(!user){
+                alert("Please Login to see your tasks");
+                navigate("/login", {replace: true});
+            }
+        };
+        checkAuth();
+    },[navigate])
 
     useEffect(() => {
         const fetchtasks = async () => {
@@ -28,6 +42,7 @@ const Main = () => {
         }
         fetchtasks();
     }, [])
+
 
     const handleOnchange = (e) => {
         settaskinput(e.target.value);
@@ -47,24 +62,30 @@ const Main = () => {
                     is_completed: false,
                     user_id: user.id,
                 },
-            ]);
+            ]).select();
             if (error) {
                 console.log("error in inserting -> ", error.message);
                 toast.error("error in ddatabse", error.message);
                 return;
             }
-            toast.success("Task Added Succesfully");
-            settaskinput("");
+            if(data && data.length > 0) {
+                settasks((prev) => [
+                  {
+                    id: data[0].id,
+                    title: taskinput,
+                    isCompleted: false,
+                  },
+                  ...prev
+                ]);
+                settaskinput("");
+                toast.success("Task Added Successfully")
+              }
 
         } catch (err) {
             console.log("Unexpected error0, ", err);
             toast.error("Unexpected")
         }
     }
-
-
-
-
 
     const filteredTasks = tasks.filter(task => {
         if (filter === 'completed') return task.isCompleted;
@@ -81,6 +102,7 @@ const Main = () => {
         })
         settasks(updatetask);
     }
+
 
     const totaltasks = tasks.length;
     const completedTasks = tasks.filter((task) => task.isCompleted).length;
@@ -101,39 +123,7 @@ const Main = () => {
                 <Filtertask className="hover:cursor-pointer" text="Completed" active={filter === 'completed'} count={completedTasks} onClick={() => setfilter('completed')} />
                 <Filtertask className="hover:cursor-pointer" text="Pending" active={filter === 'pending'} count={pendingTask} onClick={() => setfilter('pending')} />
             </div>
-            <div className='divide-y divide-gray-200'>
-                {
-                    filteredTasks.length === 0 ? (
-                        <p className='text-2xl text-red-400'>Add Task</p>
-                    ) : (
-                        <ul>
-                            {
-                                filteredTasks.map((item, index) => (
-
-                                    <li key={index} className="flex justify-between items-center p-2 mb-1.5 border rounded-md">
-
-                                        {/* <span className={item.isCompleted ? "line-through text-gray-400" : "flex items-center justify-center gap-1"}><Circle className='w-[20px] h-[20px]' />{item.title}</span> */}
-                                        <div className='flex gap-1.5'>
-                                            <input onChange={() => handleinput(index)} checked={item.isCompleted} className="checkbox ml-6" type="checkbox" />
-                                            <div className={item.isCompleted ? "line-through text-gray-400" : ""}>{item.title}</div>
-
-                                        </div>
-                                        <div className="flex space-x-2 transition-opacity">
-                                            <button className="p-1 rounded-full hover:bg-gray-200 hover:cursor-pointer ">
-                                                <Edit className="h-4 w-4 text-gray-500 " />
-                                            </button>
-                                            <button className="p-1 rounded-full hover:bg-gray-200 cursor-pointer ">
-                                                <Trash2 className="h-4 w-4 text-red-500" />
-                                            </button>
-                                        </div>
-                                    </li>
-
-                                ))
-                            }
-                        </ul>
-                    )
-                }
-            </div>
+           <Tasklists handledelete={handleDelete} handleedit={handleEdit} tasks={filteredTasks} handleinput={handleinput}/>
         </main>
     )
 }

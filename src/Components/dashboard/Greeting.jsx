@@ -23,7 +23,7 @@ const Greeting = () => {
     )
   return (
     <div>
-    <h2 className="text-2xl font-bold">Good day, {username}!</h2>
+    <h2 className="text-2xl font-bold">Hello, {username}!</h2>
     <p className="text-gray-600 dark:text-gray-400">{currentdate}</p>
   </div>
   )

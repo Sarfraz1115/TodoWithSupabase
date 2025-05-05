@@ -9,8 +9,6 @@ import Dashboard from './pages/Dashboard'
 import { ToastContainer } from 'react-toastify'
 
 
-
-
 function App() {
 
   const [user, setuser] = useState(false);
