@@ -1,4 +1,4 @@
-import { Calendar, Home, Settings, User, X ,LogOut} from 'lucide-react'
+import { Calendar, Home, Settings, User, X, LogOut } from 'lucide-react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import Main from './Main'
@@ -15,23 +15,22 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
     console.log("Calender Clicked")
   }
   const handleprofile = () => {
-    // console.log("Profile Clicked")
     Navigate("/profile");
 
   }
   const handlesetting = () => {
-    console.log("Settings Clicked")
+    Navigate("/settings")
   }
   const hanldelogout = async () => {
-    const {error} = await supabase.auth.signOut();
-    if(error){
+    const { error } = await supabase.auth.signOut();
+    if (error) {
       console.log("error during logout", error.message);
       toast.error("succes");
     }
-    else{
+    else {
       toast.success("loged out succesfully")
       console.log('Logged out successfully!');
-      Navigate('/login', {replace: true});
+      Navigate('/login', { replace: true });
     }
   }
   return (
@@ -50,20 +49,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             <Calendar className='w-[20px] h-[20px] text-blue-400' />
             <span onClick={handlecalender} className=''>Calendar</span>
           </button>
-          <button className='flex gap-2 items-center hover:bg-gray-200 rounded-md p-2.5 hover:cursor-pointer'>
+          <button onClick={handleprofile} className='flex gap-2 items-center hover:bg-gray-200 rounded-md p-2.5 hover:cursor-pointer'>
             <User className='w-[20px] h-[20px] text-blue-400' />
-            <span onClick={handleprofile} className=''>Profile</span>
+            <span className=''>Profile</span>
           </button>
-          <button className='flex gap-2 items-center hover:bg-gray-200 rounded-md p-2.5 hover:cursor-pointer'>
+          <button onClick={handlesetting} className='flex gap-2 items-center hover:bg-gray-200 rounded-md p-2.5 hover:cursor-pointer'>
             <Settings className='w-[20px] h-[20px] text-blue-400' />
-            <span onClick={handlesetting} className=''>Settings</span>
+            <span className=''>Settings</span>
           </button>
 
 
           <div className="hover:cursor-pointer pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
             <button onClick={hanldelogout} className=' flex gap-2 items-center hover:bg-gray-200 rounded-md p-2.5 hover:cursor-pointer'>
-             <LogOut className='w-[30px] h-[20px] text-blue-400'/>
-              <span  className='' >Log Out</span>
+              <LogOut className='w-[30px] h-[20px] text-blue-400' />
+              <span className='' >Log Out</span>
             </button>
           </div>
         </nav>

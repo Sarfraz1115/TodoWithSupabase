@@ -7,6 +7,8 @@ import Login from './Components/Auth/Login'
 import { supabase } from './utils/supabaseClient'
 import Dashboard from './pages/Dashboard'
 import { ToastContainer } from 'react-toastify'
+import Profile from './Components/sidebarpages/Profile'
+import Settings from './Components/sidebarpages/Settings'
 
 
 function App() {
@@ -40,6 +42,8 @@ function App() {
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
+          <Route path='/profile' element={<Profile/>}/>
+          <Route path='/Settings' element={<Settings/>}/>
 
         </Routes>
       </BrowserRouter>

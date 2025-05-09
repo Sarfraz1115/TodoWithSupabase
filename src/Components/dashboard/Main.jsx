@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import { supabase } from '../../utils/supabaseClient'
 import { data, useNavigate } from 'react-router-dom'
 import Tasklists from './Tasklists'
+import Profile from '../sidebarpages/Profile'
 
 const Main = () => {
     const [filter, setfilter] = useState("all");
@@ -161,7 +162,7 @@ const Main = () => {
             </div>
             <Addtask onclick={handleAdd} onchange={handleOnchange} value={taskinput} />
             <div className='bg-white rounded-lg shadow'>
-                <Filtertask className="hover:cursor-pointer" text="All" count={totaltasks} active={filter === 'all'} />
+                <Filtertask className="hover:cursor-pointer" text="All" count={totaltasks} active={filter === 'all'} onClick={() => setfilter('all')}  />
                 <Filtertask className="hover:cursor-pointer" text="Completed" active={filter === 'completed'} count={completedTasks} onClick={() => setfilter('completed')} />
                 <Filtertask className="hover:cursor-pointer" text="Pending" active={filter === 'pending'} count={pendingTask} onClick={() => setfilter('pending')} />
             </div>
