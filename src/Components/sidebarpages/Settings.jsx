@@ -1,181 +1,98 @@
-// import React from 'react';
-// import { Moon, Sun } from 'lucide-react';
-import React  from "react"
-import { useState } from "react"
-import { Moon, Sun, Bell, Globe, Lock, User, Shield } from "lucide-react"
+import React, { useState } from 'react';
+import { Moon, Sun, Trash2, Bell } from 'lucide-react';
 
 const Settings = () => {
-    const [darkMode, setDarkMode] = useState(false)
-    return (
+  const [theme, setTheme] = useState('light');
+  const [language, setLanguage] = useState('English');
+  const [notifications, setNotifications] = useState(true);
 
-        <div className="w-[99vw] p-[20px]">
-            <div className="mb-6">
-                <h1 className="text-2xl font-bold">Settings</h1>
-                <p className="text-gray-500">Manage your account settings and preferences</p>
-            </div>
+  const handleThemeToggle = () => {
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  };
 
-            <div className="bg-white rounded-lg shadow-sm divide-y">
-                {/* Appearance */}
-                <div className="p-6">
-                    <h2 className="text-lg font-medium mb-4">Appearance</h2>
+  const handleClearTasks = () => {
+    if (window.confirm('Are you sure you want to clear all completed tasks?')) {
+      // Logic to clear tasks from Supabase
+      alert('Completed tasks cleared!');
+    }
+  };
 
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                                    {darkMode ? <Moon className="w-5 h-5 text-gray-600" /> : <Sun className="w-5 h-5 text-gray-600" />}
-                                </div>
-                                <div>
-                                    <div className="font-medium">Theme</div>
-                                    <div className="text-sm text-gray-500">Choose between light and dark theme</div>
-                                </div>
-                            </div>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    className="sr-only peer"
-                                    checked={darkMode}
-                                    onChange={() => setDarkMode(!darkMode)}
-                                />
-                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
+  const handleDeleteAccount = () => {
+    if (window.confirm('This action is permanent. Do you want to continue?')) {
+      // Logic to delete account from Supabase
+      alert('Account deleted!');
+    }
+  };
 
-                {/* Notifications */}
-                <div className="p-6">
-                    <h2 className="text-lg font-medium mb-4">Notifications</h2>
+  return (
+    <div className="p-6 m-[20px] bg-white rounded-lg shadow-md w-full max-w-3xl mx-auto space-y-8">
+      <h2 className="text-xl font-semibold text-gray-700">Settings</h2>
 
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                                    <Bell className="w-5 h-5 text-gray-600" />
-                                </div>
-                                <div>
-                                    <div className="font-medium">Task Reminders</div>
-                                    <div className="text-sm text-gray-500">Get notified about upcoming tasks</div>
-                                </div>
-                            </div>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" className="sr-only peer" />
-                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
-                            </label>
-                        </div>
+      {/* Theme Section */}
+      <div>
+        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">Appearance</h3>
+        <button
+          onClick={handleThemeToggle}
+          className="flex items-center gap-2 px-4 py-2 rounded border border-gray-300 text-gray-700 hover:bg-gray-100"
+        >
+          {theme === 'light' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          {theme === 'light' ? 'Light Mode' : 'Dark Mode'}
+        </button>
+      </div>
 
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                                    <Bell className="w-5 h-5 text-gray-600" />
-                                </div>
-                                <div>
-                                    <div className="font-medium">Email Notifications</div>
-                                    <div className="text-sm text-gray-500">Receive email for important updates</div>
-                                </div>
-                            </div>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" className="sr-only peer" />
-                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
+      {/* Language Section */}
+      <div>
+        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">Language</h3>
+        <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          className="border border-gray-300 px-4 py-2 rounded text-gray-700"
+        >
+          <option>English</option>
+          <option>Hindi</option>
+          <option>Urdu</option>
+        </select>
+      </div>
 
-                {/* Account */}
-                <div className="p-6">
-                    <h2 className="text-lg font-medium mb-4">Account</h2>
+      {/* Notifications */}
+      <div>
+        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">Notifications</h3>
+        <label className="flex items-center space-x-3">
+          <input
+            type="checkbox"
+            checked={notifications}
+            onChange={() => setNotifications(!notifications)}
+            className="form-checkbox h-5 w-5 text-blue-600"
+          />
+          <span className="text-gray-700">Enable task reminders</span>
+          <Bell className="h-4 w-4 text-gray-500" />
+        </label>
+      </div>
 
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                                    <User className="w-5 h-5 text-gray-600" />
-                                </div>
-                                <div>
-                                    <div className="font-medium">Personal Information</div>
-                                    <div className="text-sm text-gray-500">Update your personal details</div>
-                                </div>
-                            </div>
-                            <button className="text-blue-500 hover:text-blue-600">Edit</button>
-                        </div>
+      {/* Task Management */}
+      <div>
+        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">Task Management</h3>
+        <button
+          onClick={handleClearTasks}
+          className="text-sm text-orange-600 border border-orange-300 px-4 py-2 rounded hover:bg-orange-100"
+        >
+          Clear all completed tasks
+        </button>
+      </div>
 
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                                    <Lock className="w-5 h-5 text-gray-600" />
-                                </div>
-                                <div>
-                                    <div className="font-medium">Password</div>
-                                    <div className="text-sm text-gray-500">Change your password</div>
-                                </div>
-                            </div>
-                            <button className="text-blue-500 hover:text-blue-600">Change</button>
-                        </div>
+      {/* Delete Account */}
+      <div>
+        <h3 className="text-sm font-medium text-gray-500 uppercase mb-2">Danger Zone</h3>
+        <button
+          onClick={handleDeleteAccount}
+          className="flex items-center gap-2 text-red-600 border border-red-200 px-4 py-2 rounded hover:bg-red-100"
+        >
+          <Trash2 className="h-4 w-4" />
+          Delete Account
+        </button>
+      </div>
+    </div>
+  );
+};
 
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                                    <Globe className="w-5 h-5 text-gray-600" />
-                                </div>
-                                <div>
-                                    <div className="font-medium">Language</div>
-                                    <div className="text-sm text-gray-500">Choose your preferred language</div>
-                                </div>
-                            </div>
-                            <select className="border rounded-md px-3 py-1 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option>English</option>
-                                <option>Spanish</option>
-                                <option>French</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Privacy & Security */}
-                <div className="p-6">
-                    <h2 className="text-lg font-medium mb-4">Privacy & Security</h2>
-
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                                    <Shield className="w-5 h-5 text-gray-600" />
-                                </div>
-                                <div>
-                                    <div className="font-medium">Two-Factor Authentication</div>
-                                    <div className="text-sm text-gray-500">Add an extra layer of security</div>
-                                </div>
-                            </div>
-                            <label className="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" className="sr-only peer" />
-                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
-                            </label>
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                                <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                                    <Shield className="w-5 h-5 text-gray-600" />
-                                </div>
-                                <div>
-                                    <div className="font-medium">Data Privacy</div>
-                                    <div className="text-sm text-gray-500">Manage how your data is used</div>
-                                </div>
-                            </div>
-                            <button className="text-blue-500 hover:text-blue-600">Manage</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    )}
-export default Settings
-
-
-
-
-
-
-
+export default Settings;
