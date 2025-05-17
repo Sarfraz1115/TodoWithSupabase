@@ -1,9 +1,11 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../utils/supabaseClient';
 import { toast } from 'react-toastify';
 
 const Login = () => {
+  const [user, setuser] = useState(null);
+  const [loading, setloading] = useState(false);
   const Navigate = useNavigate();
   const emailref = useRef();
   const passwordref = useRef();
@@ -18,43 +20,48 @@ const Login = () => {
         toast.error("Please fill all the fields");
         return;
       }
-
+      setloading(true);
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
       })
-      console.log("supabase data ", { error, data });
 
       if (error) {
-        // if (error.message == "Email not confirmed") {
-        //   console.log("Please verify your email", error.message);
-        //   toast.error("Please verify your email")
-        //   return;
-        // }
-        console.log("Invalid email or passw", error.message);
+        setloading(false);
         toast.error("Invalid email or passw")
         return;
       }
-
-      console.log("Login Successfull", data);
-      // alert("Login Successfull");
-      toast.success("Login Successfull")
-      Navigate("/dashboard");
+      setuser(data.user);
+      toast.success("Login Successfull");
+      setTimeout(() => {
+        setloading(false);
+        Navigate("/dashboard");
+      }, 1200);
 
     } catch (err) {
-      // console.log("Please verify email", error.message);
-      alert("Error in Login".err.message);
+      setloading(false);
       toast.error("Error in Login")
       return;
     }
   }
+
+  if(loading || user){
+    return (
+       <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="text-xl font-semibold text-gray-700 animate-pulse">Loading...</div>
+      </div>
+    );
+  }
+ 
   return (
+
     <div className="login min-h-screen bg-gray-100 flex items-center justify-center ">
       <div className="item p-[20px] border-2 w-full max-w-md space-y-8 bg-white rounded-2xl shadow-lg">
         <div className="text-center">
           <h1 className='text-2xl font-bold'>Welcome</h1>
           <p className="mt-2 text-gray-600">Please sign in to your account</p>
         </div>
+        
         <form className='space-y-4 mt-8'>
           <div className='flex flex-col m-2.5'>
             <label htmlFor="email" className='text-gray-900'>Email</label>
@@ -89,6 +96,10 @@ const Login = () => {
 
       </div>
     </div>
+
+
+
+
 
   )
 }
