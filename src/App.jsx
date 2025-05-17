@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './App.css'
 import Home from './pages/Home'
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Signup from './Components/Auth/Signup'
 import Login from './Components/Auth/Login'
 import { supabase } from './utils/supabaseClient'
@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard'
 import { ToastContainer } from 'react-toastify'
 import Profile from './Components/sidebarpages/Profile'
 import Settings from './Components/sidebarpages/Settings'
+
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
 
         </Routes>
       </BrowserRouter>
+  
 
 
 

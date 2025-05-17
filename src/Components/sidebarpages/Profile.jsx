@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../../utils/supabaseClient';
+import { toast } from 'react-toastify';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -21,15 +22,17 @@ const Profile = () => {
   const handleUpdate = async () => {
     const { error } = await supabase.auth.updateUser({
       email,
-      data: { name }
+      data: { full_name: name }
     });
 
-    if (error) {
-      alert('Error updating profile: ' + error.message);
-    } else {
-      alert('Profile updated!');
+    if (!error) {
+      toast.success('Profile updated successfully!');
       setEditMode(false);
-    }
+      const {data: {user: updateUser}} = await supabase.auth.getUser();
+      setUser(updateUser);
+      setName(updateUser.user_metadata?.full_name || '');
+      setEmail(updateUser?.email || '');
+    } 
   };
 
   return (

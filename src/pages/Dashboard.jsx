@@ -5,7 +5,7 @@ import Main from '../Components/dashboard/Main'
 import { useState } from 'react'
 
 const Dashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className='flex min-h-screen flex-col'>
       <DashboardHeader setSidebarOpen={setSidebarOpen}/>

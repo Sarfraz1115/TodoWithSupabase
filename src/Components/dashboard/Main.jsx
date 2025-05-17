@@ -155,6 +155,7 @@ const Main = () => {
 
         <main className='flex flex-1 bg-gray-100 flex-col gap-4 p-4 md:gap-8 md:p-6 '>
             <Greeting />
+            
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
                 <CardSummary title="Total tasks" color="bg-blue-400" value={tasks.length} />
                 <CardSummary title="Completed" color="bg-green-400" value={completedTasks} />
