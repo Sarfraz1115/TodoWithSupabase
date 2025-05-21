@@ -45,14 +45,14 @@ const Login = () => {
     }
   }
 
-  if(loading || user){
+  if (loading || user) {
     return (
-       <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="text-xl font-semibold text-gray-700 animate-pulse">Loading...</div>
       </div>
     );
   }
- 
+
   return (
 
     <div className="login min-h-screen bg-gray-100 flex items-center justify-center ">
@@ -61,7 +61,7 @@ const Login = () => {
           <h1 className='text-2xl font-bold'>Welcome</h1>
           <p className="mt-2 text-gray-600">Please sign in to your account</p>
         </div>
-        
+
         <form className='space-y-4 mt-8'>
           <div className='flex flex-col m-2.5'>
             <label htmlFor="email" className='text-gray-900'>Email</label>
@@ -76,10 +76,10 @@ const Login = () => {
             />
           </div>
           <div className='flex items-center justify-between mt-4 m-2.5 p-2'>
-            <div className='flex items-center justify-center'>
+            {/* <div className='flex items-center justify-center'>
               <input type="checkbox" />
               <span className='ml-2 text-gray-700'>Remember me</span>
-            </div>
+            </div> */}  
             <div>
               <a href="#" className='text-blue-500 hover:underline'>Forgot password?</a>
             </div>
